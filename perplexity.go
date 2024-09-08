@@ -67,6 +67,11 @@ type ChatCompletionResponse struct {
 	} `json:"usage"`
 }
 
+// ClientOptions represents additional options to adjust the client behavior
+type ClientOptions struct {
+	RequestTimeoutInSeconds time.Duration
+}
+
 func (r ChatCompletionResponse) isSingle() bool {
 	return len(r.Choices) == 1
 }
@@ -107,12 +112,21 @@ type Client struct {
 }
 
 // NewClient creates a new Perplexity API client
-func NewClient(apiKey, model string) *Client {
+func NewClient(apiKey, model string, options ...*ClientOptions) *Client {
+	var opts ClientOptions
+	if len(options) > 0 {
+		opts = *options[0]
+	} else {
+		opts = ClientOptions{
+			RequestTimeoutInSeconds: 30,
+		}
+	}
+
 	return &Client{
 		APIKey: apiKey,
 		Model:  model,
 		HTTPClient: &http.Client{
-			Timeout: 30 * time.Second,
+			Timeout: opts.RequestTimeoutInSeconds * time.Second,
 		},
 	}
 }
