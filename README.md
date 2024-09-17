@@ -42,7 +42,11 @@ func main() {
 	apiKey := "pplx-xxx" // Replace with your actual API key
 	model := perplexity.ModelLlama3SonarSmall32kChat
 
-	client := perplexity.NewClient(apiKey, model)
+	// You can omit the opts parameter to use the default 30-second timeout
+	opts := &perplexity.ClientOptions{
+		RequestTimeoutInSeconds: 100,
+    }
+	client := perplexity.NewClient(apiKey, model, opts)
 
 	request := perplexity.ChatCompletionRequest{
 		Messages: []perplexity.Message{
