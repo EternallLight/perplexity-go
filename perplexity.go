@@ -15,13 +15,18 @@ const ppxtyURL = "https://api.perplexity.ai/chat/completions"
 
 // Constants for available models
 const (
-	ModelMixtral8x7bInstruct       = "mixtral-8x7b-instruct"
-	ModelLlama3SonarSmall32kChat   = "llama-3-sonar-small-32k-chat"
-	ModelLlama3SonarSmall32kOnline = "llama-3-sonar-small-32k-online"
-	ModelLlama3SonarLarge32kChat   = "llama-3-sonar-large-32k-chat"
-	ModelLlama3SonarLarge32kOnline = "llama-3-sonar-large-32k-online"
-	ModelLlama3_8BInstruct         = "llama-3-8b-instruct"
-	ModelLlama3_70BInstruct        = "llama-3-70b-instruct"
+	// Perplexity Sonar Models - Online
+	ModelLlama31SonarSmall128kOnline = "llama-3.1-sonar-small-128k-online"
+	ModelLlama31SonarLarge128kOnline = "llama-3.1-sonar-large-128k-online"
+	ModelLlama31SonarHuge128kOnline  = "llama-3.1-sonar-huge-128k-online"
+
+	// Perplexity Chat Models
+	ModelLlama31SonarSmall128kChat = "llama-3.1-sonar-small-128k-chat"
+	ModelLlama31SonarLarge128kChat = "llama-3.1-sonar-large-128k-chat"
+
+	// Open-Source Models
+	ModelLlama31_8BInstruct  = "llama-3.1-8b-instruct"
+	ModelLlama31_70BInstruct = "llama-3.1-70b-instruct"
 )
 
 // Constants for message roles
@@ -132,7 +137,6 @@ func NewClient(apiKey, model string, options *ClientOptions) *Client {
 
 // ChatCompletions sends a chat completion request to the Perplexity API
 func (c *Client) ChatCompletions(ctx context.Context, request ChatCompletionRequest) (*ChatCompletionResponse, error) {
-
 	// Set the model if not already set in the request
 	if request.Model == "" {
 		request.Model = c.Model
